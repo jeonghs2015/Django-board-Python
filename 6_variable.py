@@ -1,4 +1,6 @@
-name = 'jeonghs'
+students = ["jeonghs", "dauda", "hackett", "wolf"]
+import random
+name = random.choice(students)
 message = 'hi, '+name+''' 
 .......
 .......
