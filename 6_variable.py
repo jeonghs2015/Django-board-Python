@@ -1,5 +1,6 @@
-students = ["jeonghs", "dauda", "hackett", "wolf"]
 import random
+
+students = ["jeonghs", "dauda", "hackett", "wolf"]
 name = random.choice(students)
 message = 'hi, '+name+''' 
 .......
