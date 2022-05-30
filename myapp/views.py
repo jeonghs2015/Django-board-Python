@@ -1,3 +1,4 @@
+from http.client import HTTPResponse
 from django.http import HttpResponse
 import random
 
@@ -37,9 +38,6 @@ def index(request):
     '''
     return HttpResponse(HTMLTemplate(article))
 
-def create(request):
-    return HttpResponse('Create!')
-
 def read(request, id):
     global topics
     article = ''
@@ -47,3 +45,15 @@ def read(request, id):
         if topic['id'] == int(id):
             article = f'<h2>{topic["title"]}</h2>{topic["body"]}'
     return HttpResponse(HTMLTemplate(article))
+
+    
+def create(request):
+    article = '''
+        <p><input type="text" name="title" placeholder="title"></p>
+        <p><textarea name="body" placeholder="body"></textarea></p>
+    '''
+    return HttpResponse(HTMLTemplate(article))
+
+
+
+#view.py
