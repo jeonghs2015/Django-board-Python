@@ -11,6 +11,16 @@ topics = [
 
 def HTMLTemplate(articleTag, id=None):
     global topics
+    contextUI = ''
+    if id != None:
+        contextUI = f'''
+            <li>
+                <form action="/delete/" method="post">
+                    <input type="hidden" name="id" value="{id}">
+                    <input type="submit" value="delete">
+                </form>
+            </li>
+        '''
     ol = ''
     for topic in topics:
         ol += f'<li><a href="/read/{topic["id"]}">{topic["title"]} </a></li>'
@@ -21,15 +31,10 @@ def HTMLTemplate(articleTag, id=None):
         <ul>
             {ol}
         </ul>
-        {articleTag}<br>
+        {articleTag}
         <ul>
             <li><a href="/create/">Create</a></li>
-            <li>
-                <form action="/delete/" method="post">
-                    <input type="hidden" name="id" value="{id}">
-                    <input type="submit" value="delete">
-                </form>
-            </li>
+            {contextUI}
         </ul>
     </body>
     </html>
@@ -71,3 +76,14 @@ def create(request):
         nextId = nextId + 1
         return redirect(url)
 
+@csrf_exempt
+def delete(request):
+    global topics
+    if request.method == 'POST':
+        id = request.POST['id']
+        newTopics = []
+        for topic in topics:
+            if topic['id'] != int(id):
+                newTopics.append(topic)
+        topics = newTopics
+        return redirect('/')
