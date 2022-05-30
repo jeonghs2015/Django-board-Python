@@ -3,8 +3,10 @@ from django.http import HttpResponse
 import random
 
 from django.shortcuts import render
+from numpy import require
 
 # Create your views here.
+nextId = 4
 topics = [
     {'id':1, 'title':'routing', 'body' : 'Routing is ...'},
     {'id':2, 'title':'view', 'body' : 'View is ...'},
@@ -48,10 +50,18 @@ def read(request, id):
 
     
 def create(request):
-    print('request.method', request.method)
-    article = '''
-        <p><input type="text" name="title" placeholder="title"></p>
-        <p><textarea name="body" placeholder="body"></textarea></p>
-    '''
-    return HttpResponse(HTMLTemplate(article))
+    global nextId
+    if request.method == 'GET':
+        article = '''
+            <form action="/create/" method="POST">
+                <p><input type="text" name="title" placeholder="title"></p>
+                <p><textarea name="body" placeholder="body"></textarea></p>
+                <p><input type="submit"></p>
+            </form>
+        '''
+        return HttpResponse(HTMLTemplate(article))
+    elif request.method == "POST":
+        title = request.POST['title']
+        body = request.POST['body']
+        newTopic = {"id" : nextId, "title" : title, "body" : body}
 
