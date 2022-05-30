@@ -1,9 +1,5 @@
-from http.client import HTTPResponse
-from django.http import HttpResponse
-import random
-
-from django.shortcuts import render
-from numpy import require
+from django.shortcuts import redirect, render, HttpResponse, render
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 nextId = 4
@@ -48,7 +44,7 @@ def read(request, id):
             article = f'<h2>{topic["title"]}</h2>{topic["body"]}'
     return HttpResponse(HTMLTemplate(article))
 
-    
+@csrf_exempt
 def create(request):
     global nextId
     if request.method == 'GET':
@@ -64,4 +60,8 @@ def create(request):
         title = request.POST['title']
         body = request.POST['body']
         newTopic = {"id" : nextId, "title" : title, "body" : body}
+        topics.append(newTopic)
+        url = '/read/' + str(nextId)
+        nextId = nextId + 1
+        return redirect(url)
 
