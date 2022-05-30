@@ -48,12 +48,10 @@ def read(request, id):
 
     
 def create(request):
+    print('request.method', request.method)
     article = '''
         <p><input type="text" name="title" placeholder="title"></p>
         <p><textarea name="body" placeholder="body"></textarea></p>
     '''
     return HttpResponse(HTMLTemplate(article))
 
-
-
-#view.py
